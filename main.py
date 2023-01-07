@@ -4,6 +4,7 @@ import sys
 from PyQt5.QtWidgets import QTableWidgetItem
 from openpyxl import load_workbook
 import lib_gui
+from lib_gui import pop_up
 
 filename = 'assets\listado_pacientes.xlsx'
 
@@ -154,6 +155,7 @@ class Ui_MainWindow(object):
                 self.format_date_of_birth(str(self.sheet['B' + str(b)].value))))
             self.listView.setItem(a, 2, QtWidgets.QTableWidgetItem(str(self.sheet['C' + str(b)].value)))
             a += 1
+        
 
     def add_resident(self):
         self.label_name.setVisible(True)
@@ -170,8 +172,11 @@ class Ui_MainWindow(object):
         self.sheet['A' + str(self.sheet.max_row + 1)] = self.textEdit_name.toPlainText()
         self.sheet['B' + str(self.sheet.max_row)] = self.textEdit_fn.toPlainText()
         self.sheet['C' + str(self.sheet.max_row)] = self.combobox_map.currentText()
+        self.textEdit_name.setText('')
+        self.textEdit_fn.setText('') 
         self.spreadsheet.save(filename)
-        self.load_residents()
+        pop_up.information(self, 'BIEN!!', 'El residente de ha añadido con éxito')
+        #self.load_residents()
 
     def format_date_of_birth(self, date):
         self.format1 = date.split(' ')[0]
