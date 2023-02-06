@@ -120,6 +120,7 @@ class Ui_MainWindow(object):
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(632, 200, 121, 41))
         self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_3.clicked.connect(self.request)
 
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setGeometry(QtCore.QRect(441, 200, 121, 41))
@@ -147,14 +148,17 @@ class Ui_MainWindow(object):
     def load_residents(self):
         self.spreadsheet = load_workbook(filename)
         self.sheet = self.spreadsheet.active
-        a = 0
-        for number in range(self.sheet.max_row):
-            b = a + 2
-            self.listView.setItem(a, 0, QtWidgets.QTableWidgetItem(str(self.sheet['A' + str(b)].value)))
-            self.listView.setItem(a, 1, QtWidgets.QTableWidgetItem(
-                self.format_date_of_birth(str(self.sheet['B' + str(b)].value))))
-            self.listView.setItem(a, 2, QtWidgets.QTableWidgetItem(str(self.sheet['C' + str(b)].value)))
-            a += 1
+        b = 2
+        for number in range(self.sheet.max_row - 1):            
+            if str(self.sheet['A' + str(b)].value) == 'None':
+                pass
+            else:
+                self.listView.setItem(number, 0, QtWidgets.QTableWidgetItem(str(self.sheet['A' + str(b)].value)))
+                self.listView.setItem(number, 1, QtWidgets.QTableWidgetItem(
+                    self.format_date_of_birth(str(self.sheet['B' + str(b)].value))))
+                self.listView.setItem(number, 2, QtWidgets.QTableWidgetItem(str(self.sheet['C' + str(b)].value)))
+                b += 1
+        
         
 
     def add_resident(self):
@@ -188,8 +192,7 @@ class Ui_MainWindow(object):
         # todo: escribir la logica para eliminar residente con libreria openpyxl, mover celdas de abajo hacia arriba
 
     def request(self):
-        pass
-        # todo: escribir logica para escribir en archivo doc con libreria docx y docx.share
+        print(self.listView.clicked())
 
     def reset_week(self):
         pass

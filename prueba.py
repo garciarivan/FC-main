@@ -1,4 +1,4 @@
-from docx import Document
+'''from docx import Document
 from docx.enum.text import WD_COLOR_INDEX
 
 # Crear un documento vacío
@@ -20,3 +20,14 @@ cell2.text = "Celda 2"
 
 # Guardar el documento
 document.save("table.docx")
+'''
+from openpyxl import load_workbook, worksheet
+filename = 'assets\listado_pacientes2.xlsx'
+spreadsheet = load_workbook(filename)
+sheet = spreadsheet.active
+
+a = int(input('escribe numero de columna a mover: '))
+worksheet.worksheet.Worksheet.move_range(cell_range="A1:C1", rows=0, cols=a)
+
+
+print('Hecho')
